@@ -133,7 +133,13 @@ public class ChatClientGUI extends JFrame {
 
         // Demander le nom d'utilisateur et se connecter
         UIManager.put("OptionPane.messageFont", MAIN_FONT);
-        UIManager.put("OptionPane.buttonFont", MAIN_FONT);
+        UIManager.put("OptionPane.buttonFont", MAIN_FONT);        // Attendre que le serveur soit prêt (maximum 30 tentatives)
+        if (!waitForServer(30)) {
+            JOptionPane.showMessageDialog(this, "Impossible de se connecter au serveur après plusieurs tentatives.", "Erreur de connexion", JOptionPane.ERROR_MESSAGE);
+            System.exit(1);
+            return;
+        }
+
         String username = JOptionPane.showInputDialog(this, "Entrez votre nom :");
         if (username != null && !username.trim().isEmpty()) {
             currentUser = client.createUser(username);
@@ -142,6 +148,22 @@ public class ChatClientGUI extends JFrame {
         } else {
             System.exit(0);
         }
+    }
+
+    private boolean waitForServer(int maxAttempts) {
+        for (int i = 0; i < maxAttempts; i++) {
+            if (client.isServerReady()) {
+                return true;
+            }
+            try {
+                Thread.sleep(2000); // Attendre 2 secondes entre chaque tentative
+                System.out.println("Tentative de connexion au serveur... " + (i+1) + "/" + maxAttempts);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                return false;
+            }
+        }
+        return false;
     }
 
     private void styleButton(JButton button) {
@@ -163,8 +185,8 @@ public class ChatClientGUI extends JFrame {
     }
 
     private void startPolling() {
-        // Polling des salons toutes les 5 secondes
-        Timer roomPollingTimer = new Timer(5000, e -> refreshRooms());
+        // Polling des salons toutes les 2 secondes
+        Timer roomPollingTimer = new Timer(2000, e -> refreshRooms());
         roomPollingTimer.start();
 
         // Polling des messages toutes les secondes

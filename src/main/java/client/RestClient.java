@@ -13,7 +13,8 @@ import models.Message;
 import models.Room;
 import models.User;
 
-public class RestClient {    private static final String BASE_URL = "http://localhost:8080/chatroom/api";
+public class RestClient {    
+    private static final String BASE_URL = "http://localhost:8080/chatroom/api";
     private final Client client;
     private final WebTarget baseTarget;
 
@@ -78,6 +79,16 @@ public class RestClient {    private static final String BASE_URL = "http://loca
     public void close() {
         if (client != null) {
             client.close();
+        }
+    }
+
+    public boolean isServerReady() {
+        try {
+            return baseTarget.path("users")
+                     .request(MediaType.APPLICATION_JSON)
+                     .get() != null;
+        } catch (Exception e) {
+            return false;
         }
     }
 }
