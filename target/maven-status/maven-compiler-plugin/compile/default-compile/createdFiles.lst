@@ -1,0 +1,14 @@
+client\RestClient$1.class
+client\ChatClientGUI$1.class
+services\ChatService.class
+resources\UserResource.class
+client\RestClient$2.class
+models\User.class
+resources\RoomResource.class
+models\Message.class
+config\JaxRsConfig.class
+resources\MessageResource.class
+client\ChatClientGUI.class
+client\RestClient$3.class
+models\Room.class
+client\RestClient.class
