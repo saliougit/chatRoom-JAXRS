@@ -1,0 +1,3 @@
+@echo off
+echo Demarrage du client avec Maven...
+mvn exec:java -Dexec.mainClass="client.ChatClientGUI" -Dexec.cleanupDaemonThreads=false
