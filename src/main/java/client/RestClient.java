@@ -1,9 +1,17 @@
 package client;
 
-import models.*;
-import javax.ws.rs.client.*;
-import javax.ws.rs.core.*;
 import java.util.List;
+
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.GenericType;
+import javax.ws.rs.core.MediaType;
+
+import models.Message;
+import models.Room;
+import models.User;
 
 public class RestClient {    private static final String BASE_URL = "http://localhost:8080/chatroom/api";
     private final Client client;
